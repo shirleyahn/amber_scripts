@@ -9,7 +9,7 @@ Heat step 2
   ntf=2,
   ntc=2,
   ntb=2,
-  ntp=2,
+  ntp=1,
   taup=2.0,
   pres0=1.0,
   ntt=3,

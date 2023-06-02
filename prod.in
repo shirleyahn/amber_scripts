@@ -9,7 +9,7 @@ Production conventional MD
   ntf=2,
   ntc=2,
   ntb=2,
-  ntp=2,
+  ntp=1,
   pres0=1.0,
   taup=1.0,
   ntt=3,

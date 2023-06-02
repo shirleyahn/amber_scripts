@@ -9,7 +9,7 @@ Heating step 4
   ntf=2,
   ntc=2,
   ntb=2,
-  ntp=2,
+  ntp=1,
   taup=2.0,
   pres0=1.0,
   ntt=3,
@@ -24,7 +24,7 @@ Heating step 4
   ig=-1,
   iwrap=1,
   restraint_wt=1.0,
-  restraintmask='@CA,C,O,N&!:WAT&(:HB1,HB2,HDD,PRN,PRP,OL,PE,MY,UQ8,PC,PGR,PA&!@H=)',
+  restraintmask='@CA,C,O,N&!:WAT',
  /
 &wt type='TEMP0', istep1=0, istep2=2000000, value1=300.0, value2=300.0 /
 &wt type='END' /
