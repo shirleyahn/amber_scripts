@@ -1,0 +1,80 @@
+##### CPPTRAJ INPUT FILE ####
+### (1) RUNNING COMMAND: cpptraj yourtopology.top < matrix.cpptraj.in
+trajin trajectory.dcd 1 15000
+autoimage
+
+parm 6VSB_equil.pdb [ref2parm]
+reference 6VSB_equil.pdb [ref2parm]
+
+### (2) Now if we were just to calculate the coordinate covariance matrix from the raw trajectory data, we will not only capture internal motion, but also the global rotation and translation of the system. Since in this instance we are interested in only internal dynamics, we need to remove the rotational/translational motion, which we will accomplish by performing a coordinate RMS best-fit to a reference structure, which in our case will be the averaged coordinates. To generate the average coordinates we first put the frames in a common reference by RMS fitting to the reference using CA atoms of the helical core domain ##########
+
+rms reference @CA&(@14090-14668,17137-17478,17747-18525,35525-36103,38572-38913,39182-39960,56640-57191,59735-60028,60319-61075)
+
+### (3) We then create an average structure over the entire set of frames loaded and save the coordinates as 'averagecoords', which can be subsequently used as a reference structure. Note that if we wanted to we could write the averaged coordinates out to a file in any format CPPTRAJ supports as well.##########
+
+average crdset averagecoords
+average average_protein_bb.pdb pdb (@CA,C,O,N)
+
+### (4) CPPTRAJ has the notion of "data sets" which can be of multiple formats. Here we create a coordinate dataset that will save all of the input frames. This allows us to act on the entire set later without have to re-read in the trajectory from disk. We refer to the loaded frame coordinate dataset as: avetraj #########
+
+createcrd avetraj
+
+### (5) The commands above will generate the average structure which we want to use as a reference. To run the above now, without exiting the program, we input 'run' #######
+
+run
+
+### (6) Now that we have generated the averaged coordinates, 'averagecoords', as well as saved the frames from the input trajectory. Now we can RMS-fit the saved trajectory frames to the averaged coordinates to remove global rotational/translational motion. This is done using the crdaction command.########
+
+crdaction avetraj rms ref averagecoords @CA&(@14090-14668,17137-17478,17747-18525,35525-36103,38572-38913,39182-39960,56640-57191,59735-60028,60319-61075)
+
+### (7) Now we use the matrix command to generate the coordinate covariance matrix (matrix covar), which we will name 'coordcovariance'. We generate also the the distance matrix (matrix dist), the mass-weightd covariance matrix (matrix mwcovar), the correlation matrix (matrix correl) #######
+
+crdaction avetraj matrix dist name distmatrix (@CA,C,O,N) out distance_matrix.dat
+crdaction avetraj matrix mwcovar name mwcovariance (@CA,C,O,N) out bb_covariance_mw_matrix.dat
+crdaction avetraj matrix covar name coordcovariance (@CA,C,O,N) out covariance_coord_matrix.dat
+crdaction avetraj matrix correl (@CA,C,O,N) out bb_correlation_matrix.dat
+
+### (8) Now that we have the matrix, we can obtain PCs by diagonalizing it; this will give us the eigenvectors (i.e. the PCs) and the eigenvalues (i.e. the "weight" of each PC). To start, we will obtain the first three eigenvectors. The runanalysis command tells cpptraj to run 'diagmatrix' immediately instead of adding it to the analysis queue. The nmwiz and related keywords generate output which can be used to visualize principal component data with the 'nmwiz' plugin for VMD. ########
+
+runanalysis diagmatrix mwcovariance out bb_evecs_mw.dat vecs 3 name myevecs_mw nmwiz nmwizvecs 3 nmwizfile bb_mw.nmd nmwizmask (@CA,C,O,N)
+#runanalysis diagmatrix coordcovariance out evecs_coord.dat vecs 3 name myevecs_coord nmwiz nmwizvecs 3 nmwizfile rna_coord.nmd nmwizmask (@CA,C,O,N)
+
+### (9) Once this command has completed the file 'evecs.dat' and the data set 'myEvecs' will contain the eigenvectors (PCs) and eigenvalues (this data is referred to collectively as "eigenmode data"). It is often useful to write these out to a file as they can be read back in later for further analysis. We can now project the trajectory coordinates along PCs to see how much the coordinates of each frame "match up" along each principal component. We can do this for the frames from the original individual trajectories, which will essentially allow us to compare how well the motions from each individual trajectory match. Note that it is critical that the frames used for projection are the same ones used to generate the coordinate covariance matrix. In this case the saved frames in memory can be used. It is also necessary that the same atom mask that was used to generate the matrix is used for projection.In this case the projections from the cpu trajectories are named 'TRAJ' #######
+
+crdaction avetraj projection TRAJ_mw out bb_projection_mw.dat modes myevecs_mw beg 1 end 3 (@CA,C,O,N) crdframes 1,10000
+#crdaction avetraj projection TRAJ_coord out projection_coord.dat modes myevecs_coord beg 1 end 3 (@CA,C,O,N) crdframes 1,10000
+
+### (10) Once this data is generated, we can make normalized histograms of the three calculated projections from each trajectory with hist analysis commands, followed by the run command to actually do the work! The data set indices (e.g. ':1') refer to the principal components, so that 'TRAJ:1' is the first principal component from TRAJ etc. #######
+
+hist TRAJ_mw:1 bins 200 out bb_traj-hist_mw.agr norm name TRAJ-1-mw
+hist TRAJ_mw:2 bins 200 out bb_traj-hist_mw.agr norm name TRAJ-2-mw
+hist TRAJ_mw:3 bins 200 out bb_traj-hist_mw.agr norm name TRAJ-3-mw
+#hist TRAJ_coord:1 bins 70000 out traj-hist_coord.agr norm name TRAJ-1-coord
+#hist TRAJ_coord:2 bins 70000 out traj-hist_coord.agr norm name TRAJ-2-coord
+#hist TRAJ_coord:3 bins 70000 out traj-hist_coord.agr norm name TRAJ-3-coord
+
+run
+
+### (11) Now that this phase of the analysis has been completed, we can issue the clear all command to get rid of all stored data so we can do further analysis with a "clean slate". #####
+
+clear all
+
+### (12) Our next step is to visualize the fluctuations of the eigenmodes. To do this, we read in the generated file with the eigenvectores using the readdata command.#####
+
+readdata bb_evecs_mw.dat name myevecs_mw
+#readdata evecs_coord.dat name myevecs_coord
+
+### (13) Load up the original topology and modify it so that it will match how the coordinate covariance matrix (and the subsequent eigenvectors) were calculated: ######
+
+parm closed.prmtop
+parmstrip !(@CA,C,O,N) 
+parmwrite out bb.psf
+
+### (14) Create a NetCDF pseudo-trajectory file of motion along the first PC. The min and max values can be chosen by looking at the histogram of the PC projection. #####
+
+runanalysis modes name myevecs_mw trajout bb_PC_mw_motion_1.nc trajoutfmt netcdf trajoutmask (@CA,C,O,N) pcmin -1500 pcmax 1500 tmode 1
+runanalysis modes name myevecs_mw trajout bb_PC_mw_motion_2.nc trajoutfmt netcdf trajoutmask (@CA,C,O,N) pcmin -1500 pcmax 1500 tmode 2
+runanalysis modes name myevecs_mw trajout bb_PC_mw_motion_3.nc trajoutfmt netcdf trajoutmask (@CA,C,O,N) pcmin -1500 pcmax 1500 tmode 3
+
+quit
+
