@@ -1,9 +1,10 @@
 &cntrl
-  imin = 0, irest = 0, ntx = 1,
+  imin = 0, irest = 1, ntx = 5,
   nstlim = 251000000, dt = 0.002,
   ntc = 2, ntf = 2, tol = 0.000001,
-  iwrap = 1, ntb = 1, cut = 8.0,
+  iwrap = 1, ntb = 2, cut = 8.0,
   ntt = 3, temp0 = 300.0, gamma_ln = 1.0,
+  ntp = 1, pres0 = 1.0, taup = 1.0,
   ntpr = 5000, ntwx = 5000, ntwr = 5000,
   ntxo = 2, ioutfm = 1, ig = -1, ntwprt = 0,
   igamd = 3, iE = 2, irest_gamd = 0,
