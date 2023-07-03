@@ -4,7 +4,7 @@ Heat step 1
   ntx=1,
   irest=0,
   tol=0.0000001,
-  nstlim=250000,
+  nstlim=2000000,
   dt=0.002,
   ntf=2,
   ntc=2,
@@ -21,8 +21,8 @@ Heat step 1
   nmropt=1,
   ig=-1,
   iwrap=1,
-  restraint_wt=10.0,
+  restraint_wt=1.0,
   restraintmask='@CA,C,O,N&!:WAT',
  /
-&wt type='TEMP0', istep1=0, istep2=250000, value1=10.0, value2=300.0 /
+&wt type='TEMP0', istep1=0, istep2=2000000, value1=10.0, value2=300.0 /
 &wt type='END' /
