@@ -1,6 +1,6 @@
 ##### CPPTRAJ INPUT FILE ####
-### (1) RUNNING COMMAND: cpptraj yourtopology.top < matrix.cpptraj.in
-trajin trajectory.dcd 1 15000
+### (1) RUNNING COMMAND: cpptraj yourtopology.top < pca.cpptraj
+trajin trajectory.dcd
 autoimage
 
 parm 6VSB_equil.pdb [ref2parm]
