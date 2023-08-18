@@ -17,7 +17,7 @@ module load shared
 module load gpu/0.15.4
 module load slurm
 module load openmpi/4.0.4
-module load cuda10.2/toolkit/10.2.89
+module load cuda/11.0.2
 module load amber/20
 
 export PATH=$PATH:$HOME/bin
