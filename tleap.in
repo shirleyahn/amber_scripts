@@ -2,10 +2,8 @@
 # Amber prmtop and inpcrd MD files
 
 source oldff/leaprc.ff14SB
-source leaprc.gaff
 source leaprc.lipid17
 
-loadamberparams frcmod.ions1lm_126_tip3p
 loadamberprep ubiquinone.prepi
 loadamberparams ubiquinone.frcmod
 
