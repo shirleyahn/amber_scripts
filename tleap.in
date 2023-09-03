@@ -30,13 +30,11 @@ check protein
 savepdb protein protein.pdb
 saveamberparm protein protein.prmtop protein.inpcrd
 
-addions protein Na+ 0 ## replace this with number of atoms needed to neutralize the system
-addions protein Cl- 0 ## same here
+addions protein Na+ 0 Cl- 0 ## replace this with number of atoms needed to neutralize the system
 
 solvatebox protein TIP3PBOX 15.0
 
-addions protein Na+ 94  ## this is to set the ionic concentration
-addions protein Cl- 94  ## same here
+addions protein Na+ 94 Cl- 94 ## this is to set the ionic concentration
 #setbox protein vdw
 savepdb protein protein_solv.pdb
 saveamberparm protein protein_solv.prmtop protein_solv.inpcrd
