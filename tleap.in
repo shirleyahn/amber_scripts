@@ -2,6 +2,7 @@
 # Amber prmtop and inpcrd MD files
 
 source oldff/leaprc.ff14SB
+source leaprc.gaff
 source leaprc.lipid17
 
 loadamberprep ubiquinone.prepi
@@ -27,15 +28,16 @@ bond protein.7.CA protein.8.C2A
 
 check protein
 savepdb protein protein.pdb
-saveamberparm protein protein.prmtop protein.rst7
+saveamberparm protein protein.prmtop protein.inpcrd
 
-solvatebox protein TIP3PBOX 15.0
 addions protein Na+ 0 ## replace this with number of atoms needed to neutralize the system
 addions protein Cl- 0 ## same here
+
+solvatebox protein TIP3PBOX 15.0
+
 addions protein Na+ 94  ## this is to set the ionic concentration
 addions protein Cl- 94  ## same here
-setbox protein vdw
+#setbox protein vdw
 savepdb protein protein_solv.pdb
-saveamberparm protein protein_solv.prmtop protein_solv.rst7
+saveamberparm protein protein_solv.prmtop protein_solv.inpcrd
 quit
-
