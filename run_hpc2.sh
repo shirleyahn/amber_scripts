@@ -8,7 +8,6 @@
 #SBATCH --account=ahnlab
 #SBATCH --partition=gpu-ahn
 #SBATCH --no-requeue
-#SBATCH --exclusive
 #SBATCH --mail-user=youruserid@ucdavis.edu
 #SBATCH --mail-type=ALL
 #SBATCH -t 360:00:00
