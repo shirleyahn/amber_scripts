@@ -1,4 +1,0 @@
-parm yourprmtopfile
-trajin yourncfile
-
-rmsd RMSD first @CA&(:1-3879) nofit out rmsd.dat #replace this with the appropriate residue numbers
