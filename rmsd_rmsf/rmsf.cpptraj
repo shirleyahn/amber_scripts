@@ -1,0 +1,4 @@
+parm yourprmtopfile
+trajin yourncfile
+
+atomicfluct out rmsf_ca-atoms.dat @CA
