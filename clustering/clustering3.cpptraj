@@ -1,5 +1,0 @@
-parm protein.prmtop
-trajin singlerep.nc
-rmsd :* first
-autoimage
-trajout reps.nc

@@ -1,22 +1,5 @@
 parm protein.prmtop
-trajin prod.dcd
-trajin ../gamd/dihedral_lower/md3.dcd
-trajin ../gamd/dihedral_upper/md4.dcd
-trajin ../gamd/dual_lower/md5.dcd
-trajin ../gamd/dual_upper/md6.dcd
-trajin ../gamd/total_lower/md.dcd
-trajin ../gamd/total_upper/md2.dcd
-
+trajin singlerep.nc
+rmsd :* first
 autoimage
-
-cluster c0 \
-  dbscan minpoints 3 epsilon 0.9 sievetoframe \
-  rms @4148-6245&@CA \
-  sieve 10 random \
-  out cnumvtime.dat \
-  summary summary.dat \
-  info info.dat \
-  cpopvtime cpopvtime.agr normframe \
-  repout rep repfmt pdb \
-  singlerepout singlerep.nc singlerepfmt netcdf \
-avgout avg avgfmt pdb
+trajout reps.nc
