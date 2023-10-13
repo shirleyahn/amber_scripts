@@ -7,5 +7,5 @@ Minimize everything
   ncyc=10000,
   ntpr=100,
   ntwx=0,
-  cut=8.0,
+  cut=10.0,
  /

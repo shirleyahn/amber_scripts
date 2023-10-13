@@ -7,7 +7,7 @@ Minimize heavy atoms
   ncyc=1000,
   ntpr=100,
   ntwx=0,
-  cut=8.0,
+  cut=10.0,
   restraint_wt=10.0,
   restraintmask='@CA,C,O,N&!:WAT',
  /

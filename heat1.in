@@ -13,7 +13,7 @@ Heat step 1
   ntpr=5000,
   ntwx=5000,
   ntwr=5000,
-  cut=8.0,
+  cut=10.0,
   ntb=1,
   ntp=0,
   ntt=3,

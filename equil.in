@@ -17,7 +17,7 @@ Equilibrate
   ntpr=5000,
   ntwx=5000,
   ntwr=5000,
-  cut=8.0,
+  cut=10.0,
   gamma_ln=1.0,
   ig=-1,
   iwrap=1,
