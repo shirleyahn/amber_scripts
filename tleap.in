@@ -37,5 +37,5 @@ solvatebox protein TIP3PBOX 15.0
 addions protein Na+ 94 Cl- 94 ## this is to set the ionic concentration
 #setbox protein vdw
 savepdb protein protein_solv.pdb
-saveamberparm protein protein_solv.prmtop protein_solv.inpcrd
+saveamberparm protein protein_solv.prmtop protein_solv.rst7
 quit
