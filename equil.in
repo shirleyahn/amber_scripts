@@ -21,6 +21,7 @@ Equilibrate
   gamma_ln=1.0,
   ig=-1,
   iwrap=1,
+  ntr=1,
   restraint_wt=0.1,
   restraintmask='@CA,C,O,N&!:WAT',
  /

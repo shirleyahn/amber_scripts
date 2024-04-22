@@ -21,6 +21,7 @@ Heat step 2
   nmropt=1,
   ig=-1,
   iwrap=1,
+  ntr=1,
   restraint_wt=1.0,
   restraintmask='@CA,C,O,N&!:WAT',
  /
